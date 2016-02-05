@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="splendor.css"/>
+    <meta charset="UTF-8">
+    <title>Splendor</title>
+    <script src="splendor.js"></script>
+</head>
+<body onload="initializeGame()" style="visibility: hidden">
+
+<table id="availableNobles">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<table border= "2" id="availableCards">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<table border= "2" id="bank">
+    <tr>
+        <td><img src="stone4.jpg" width = 50px></td>
+        <td><img src="stone1.jpg" width = 50px></td>
+        <td><img src="stone5.jpg" width = 50px></td>
+        <td><img src="stone2.jpg" width = 50px></td>
+        <td><img src="stone3.jpg" width = 50px></td>
+        <td><img src="stone6.jpg" width = 50px></td>
+    </tr>
+    <tr>
+        <td>White</td>
+        <td>Blue</td>
+        <td>Green</td>
+        <td>Red</td>
+        <td>Black</td>
+        <td>Gold</td>
+    </tr>
+</table>
+
+<button type="button" onclick="doneButtonClicked()" id="doneButton">Done</button>
+
+<table border= "1" id="activePlayer">
+    <tr>
+        <td><img src="stone4.jpg" width = 50px></td>
+        <td><img src="stone1.jpg" width = 50px></td>
+        <td><img src="stone5.jpg" width = 50px></td>
+        <td><img src="stone2.jpg" width = 50px></td>
+        <td><img src="stone3.jpg" width = 50px></td>
+        <td><img src="stone6.jpg" width = 50px></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2" style="min-width:75px"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td bgcolor="#4682b4"></td>
+    </tr>
+</table>
+
+<table border= "1" id="playerDetails">
+    <tr>
+        <td><img src="stone4.jpg" width = 50px></td>
+        <td><img src="stone1.jpg" width = 50px></td>
+        <td><img src="stone5.jpg" width = 50px></td>
+        <td><img src="stone2.jpg" width = 50px></td>
+        <td><img src="stone3.jpg" width = 50px></td>
+        <td><img src="stone6.jpg" width = 50px></td>
+    </tr>
+
+    <tr bgcolor=#a9a9a9>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2" style="min-width:75px"></td>
+    </tr>
+    <tr bgcolor=#a9a9a9>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td bgcolor="#4682b4"></td>
+    </tr>
+
+
+    <tr bgcolor="#d3d3d3">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2" style="min-width:75px"></td>
+    </tr>
+    <tr bgcolor=#d3d3d3>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td bgcolor=#4682b4></td>
+    </tr>
+
+    <tr bgcolor=#a9a9a9>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2" style="min-width:75px"></td>
+    </tr>
+    <tr bgcolor=#a9a9a9>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td bgcolor="#4682b4"></td>
+    </tr>
+
+    <tr bgcolor="#d3d3d3">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2" style="min-width:75px"></td>
+    </tr>
+    <tr bgcolor=#d3d3d3>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td  bgcolor="#4682b4"></td>
+    </tr>
+</table>
+
+<table id="messageLog" bgcolor="#d3d3d3">
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+</table>
+
+</body>
+</html>

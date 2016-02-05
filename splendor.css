@@ -1,0 +1,43 @@
+#availableNobles {
+    position: absolute;
+    left: 550px;
+    width: 300px;
+    padding: 10px;
+}
+
+#bank {
+    font-size: 150%;
+    position: absolute;
+    top: 570px;
+}
+
+#doneButton {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    left: 400px;
+    top: 600px;
+}
+
+#messageLog {
+    position: absolute;
+    top: 670px;
+    width: 355px;
+}
+
+#activePlayer {
+    background: lightgrey;
+    position: absolute;
+    left: 575px;
+    width: 300px;
+    top: 570px;
+    font-size: 150%;
+}
+
+#playerDetails {
+    position: absolute;
+    left: 575px;
+    top: 175px;
+    width: 300px;
+    font-size: 150%;
+}
