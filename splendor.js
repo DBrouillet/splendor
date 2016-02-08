@@ -219,18 +219,11 @@ function createPlayers() {
 }
 
 function populateAvailableCardsHTMLTable() {
-    var table = document.getElementById("availableCards");
-    if (table != null) {
-        for (var i = 0; i < table.rows.length; i++) {
-            var row = table.rows[i];
-            var deckIndex = table.rows.length - i - 1;
-            for (var j = 0; j < row.cells.length; j++) {
-                row.cells[j].innerHTML = '<img src="' + cardsInPlay[deckIndex][j].imagePath + '" width="125px">';
-                row.cells[j].style.border = "medium solid white";
-                row.cells[j].onclick = makeClickedOnCardCallback(deckIndex, j)
-            }
-        }
-    }
+     forCellInCardTable(function(cell, i, j){
+         cell.innerHTML = '<img src="' + cardsInPlay[i][j].imagePath + '" width="125px">';
+         cell.style.border = "medium solid white";
+         cell.onclick = makeClickedOnCardCallback(i, j)
+     });
 }
 
 function populateAvailableNoblesHTMLTable() {
@@ -526,6 +519,20 @@ function determineWinner() {
     }
 }
 
+// Higher-order function to iterate over each cell in availableCards and apply a function to it.
+function forCellInCardTable(func) {
+    var table = document.getElementById("availableCards");
+    for (var i = 0; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        for (var j = 0; j < row.cells.length; j++) {
+            var cell = row.cells[j];
+            // The row index is 2 - i because the decks are in reverse order.
+            var deck = table.rows.length - i - 1;
+            func(cell, deck, j);
+        }
+    }
+}
+
 // Starts the turn for a player.
 Player.prototype.startTurn = function() {
     updateUIForActivePlayer();
@@ -538,7 +545,8 @@ Player.prototype.startTurn = function() {
     }
 };
 
-// Helper function to prevent player from taking too many gems - returns false if has 10 or more gems between player and selected
+// Helper function to prevent player from taking too many gems -
+// returns false if has 10 or more gems between player and selected
 Player.prototype.checkChipOverflow = function() {
     var count = 0;
     for (var i = 0; i < gemSelected.length; i++) {
@@ -580,20 +588,16 @@ Player.prototype.takeGems = function() {
 // Changes the border colors around each card in cardsInPlay based on if the active player
 // can afford those cards. White -> Unaffordable, Green -> Affordable, Blue -> Selected and Affordable
 Player.prototype.highlightAffordableCards = function() {
-    var table = document.getElementById("availableCards");
-    for (var i = 0; i < table.rows.length; i++) {
-        var row = table.rows[i];
-        for (var j = 0; j < row.cells.length; j++) {
-            if ((cardSelected != null) && (cardSelected[0] == 2-i && cardSelected[1] == j)) {
-                row.cells[j].style.border = "medium solid blue";
-            } else if (cardsInPlay[2-i][j] != undefined && this.canBuyCard(cardsInPlay[2-i][j])) {
-                    row.cells[j].style.border = "medium solid green";
-            }
-            else {
-                row.cells[j].style.border = "medium solid white";
-            }
+    forCellInCardTable(function(cell, i, j) {
+        if ((cardSelected != null) && (cardSelected[0] == i && cardSelected[1] == j)) {
+            cell.style.border = "medium solid blue";
+        } else if (cardsInPlay[i][j] != undefined && activePlayer.canBuyCard(cardsInPlay[i][j])) {
+            cell.style.border = "medium solid green";
         }
-    }
+        else {
+            cell.style.border = "medium solid white";
+        }
+    });
 };
 
 // Returns true if the player is able to afford the given card, false otherwise.
@@ -710,9 +714,11 @@ Player.prototype.AITakeTurn = function() {
 // Function that makes the AI buy a card. If it can afford one,
 // it will buy one and return true. If it cannot, it returns false.
 Player.prototype.AIBuyCard = function() {
-    var listOfCards = this.AIlistAffordableCards();
+    var listOfCards = makeListFromCards(function(card) {
+        return activePlayer.canBuyCard(card) ? card : null;
+    });
     if (listOfCards.length == 0) {
-        return false
+        return false;
     }
     listOfCards = this.AIKeepHighestPointValue(listOfCards);
     listOfCards = this.AIKeepCheapestCards(listOfCards);
@@ -726,8 +732,25 @@ Player.prototype.AIBuyCard = function() {
             }
         }
     }
-    return true
+    return true;
 };
+
+// Higher-order function to create lists by iterating over cardsInPlay. Returns a list of contents that are determined
+// by the function passed to it.
+function makeListFromCards(func) {
+    var outputList = [];
+    for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 4; col++) {
+            if (cardsInPlay[row][col] != undefined) {
+                var c = func(cardsInPlay[row][col]);
+                if (c != null) {
+                    outputList.push(c);
+                }
+            }
+        }
+    }
+    return outputList;
+}
 
 // Generates a list of cards the player is able to buy.
 Player.prototype.AIlistAffordableCards = function() {
@@ -741,7 +764,7 @@ Player.prototype.AIlistAffordableCards = function() {
             }
         }
     }
-    return affordableCards
+    return affordableCards;
 };
 
 // Filters the given list to include only the most valuable cards
@@ -756,7 +779,7 @@ Player.prototype.AIKeepHighestPointValue = function(affordableCards) {
         }
         if (out.length != 0) {break}
     }
-    return out
+    return out;
 };
 
 // Filters the given list to include only the cheapest cards
@@ -771,7 +794,7 @@ Player.prototype.AIKeepCheapestCards = function(affordableCards) {
         }
         cardCost += 1
     }
-    return out
+    return out;
 };
 
 // This function returns the number of gems needed to buy a card - used to help AI determine what is cheaper
@@ -780,7 +803,7 @@ Player.prototype.AICardCost = function(card) {
     for (var i = 0; i < 5; i++) {
         total += Math.max(0, card.cost[i] - this.cards[i])
     }
-    return total
+    return total;
 };
 
 // The function the AI uses to try to take gems.
@@ -811,15 +834,9 @@ Player.prototype.AITakeGems = function() {
 
 // Function to determine AI's color preference when taking gems.
 Player.prototype.AIColorPreference = function() {
-    var listOfCards = [];
-    for (var i = 0; i < 3; i++) {
-        for (var j = 0; j < 4; j++) {
-            if (cardsInPlay[i][j] != undefined) {
-                var c = cardsInPlay[i][j];
-                listOfCards.push([c, activePlayer.AICardCost(c)]);
-            }
-        }
-    }
+    var listOfCards = makeListFromCards(function(card) {
+        return [card, activePlayer.AICardCost(card)];
+    });
     listOfCards.sort(function(a, b) {
         var x = a[1];
         var y = b[1];
